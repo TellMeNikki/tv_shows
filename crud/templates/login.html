@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Register/Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+      integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+      integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style_login.css' %}" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row content">
+        <div class="col-4"></div>
+        <div class="col-8">
+          <div class="tab">
+            <div class="tab-inner">
+              <button class="tablinks" onclick="changeTab(event, 'register')" id="defaultOpen">Register</button>
+            </div>
+            <div class="tab-inner">
+              <button class="tablinks" onclick="changeTab(event, 'login')">Login</button>
+            </div>
+          </div>
+          <!--REGISTER-->
+          <form class="form-detail" action="/register" method="POST">
+            {% csrf_token %}
+            <div class="tabcontent" id="register">
+              <div class="form-row">
+                <div class="form-row-inner">
+                  <input type="text" name="name" id="name" class="input-text" required>
+                  <span class="label">Name</span>
+                  <span class="border"></span>
+                </div>
+                <div class="form-row-inner">
+                  <input type="email" name="email" id="email" class="input-text" required>
+                  <span class="label">E-Mail</span>
+                  <span class="border"></span>
+                </div>
+                <div class="form-row-inner">
+                  <input type="password" name="password" id="password" class="input-text" required>
+                  <span class="label">Password</span>
+                  <span class="border"></span>
+                </div>
+                <div class="form-row-inner">
+                  <input type="password" name="password_confirm" id="password_confirm" class="input-text" required>
+                  <span class="label">Password Confirm</span>
+                  <span class="border"></span>
+                </div>
+              </div>
+              <div class="form-row-last">
+                <input type="submit" name="register" class="register" value="Register">
+              </div>
+            </div>
+          </form>
+          <!--LOGIN-->
+          <form class="form-detail" action="/login" method="POST">
+            {% csrf_token %}
+            <div class="tabcontent" id="login">
+              <div class="form-row">
+                <div class="form-row-inner">
+                  <input type="email" name="your_email_1" id="your_email_1" class="input-text" required>
+                  <span class="label">E-Mail</span>
+                  <span class="border"></span>
+                </div>
+                <div class="form-row-inner">
+                  <input type="password" name="password_1" id="password_1" class="input-text" required>
+                  <span class="label">Password</span>
+                  <span class="border"></span>
+                </div>
+              </div>
+              <div class="form-row-last">
+                <input type="submit" name="register" class="register" value="Login">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+    // Acá se muestran los Toastr's
+      $(document).ready(function onDocumentReady() {
+        {% if messages %}
+          {% for message in messages %}
+            toastr.{{message.tags}}("{{message}}");
+          {% endfor %}
+        {% endif %}
+      });
+      
+      function changeTab(evt, tab) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tab).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+      document.getElementById("defaultOpen").click();
+    </script>
+  </body>
+</html>

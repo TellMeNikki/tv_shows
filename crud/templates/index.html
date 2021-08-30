@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}New - TV Show{% endblock %}
+{% block estilo %}
+<head>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+{% endblock %}
+
+{%block titulo%}All Shows{%endblock%}
+
+{%block content%}
+<!-- Tabla-->
+<div class="table-responsive" id="tabla">
+  <table class="table table-striped fs-5 text-dark py-2 px-2 text-center">
+    <thead>
+      <tr class="fw-bolder">
+        <th scope="col">id</th>
+        <th scope="col">Title</th>
+        <th scope="col">Network</th>
+        <th scope="col">Release Date</th>
+        <th scope="col">Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for show in tvshows %}
+      <tr>
+        <td scope="row">{{show.id}}</td>
+        <td>{{show.title}}</td>
+        <td>{{show.network_id.name}}</td>
+        <td>{{show.release_date}}</td>
+        <td> 
+          <i class="far fa-eye 9x bg-success text-light" id="icon"> View</i> 
+          <i class="far fa-edit 9x bg-primary text-light" id="icon"> Edit</i> 
+          <i class="fas fa-trash 9x bg-danger text-light" id="icon"> Delete</i>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="foot fs-4"> 
+  <a href="/shows/create">
+    <i class="fas fa-plus"></i> Add a new Show
+  </a>
+</div>
+{%endblock%} 
+{% block js%}
+<script>
+  $(window).on("load resize ", function () {
+    var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+    $('.tbl-header').css({ 'padding-right': scrollWidth });
+  }).resize();
+</script>
+{% endblock %}

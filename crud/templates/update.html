@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}
+  Add TV-Show
+{% endblock %}
+{% block estilo %}
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+{% endblock %}
+{%block titulo%}
+  Update a Show
+{%endblock%}
+{%block content%}
+  <!-- Form-->
+  <div id="formulario">
+    <form class="col text-center" action="/shows/edit" method="POST">
+    {% csrf_token %}
+      <label for="show_title" class="form-label">Tittle</label>
+      <input type="text" class="form-control" id="show_title" name="show_title">
+      <div class="row">
+        <div class="col-6">
+          <label for="network_id" class="form-label">Network</label>
+          <select class="form-control mt-1 col-4 text-dark" id="network_id" name="network_id">
+            <option selected>Choose a Network...</option>
+            {% for network in networks %}
+              <option value="{{network.id}}"> {{network.name}}</option>
+            {% endfor %}
+            <!-- 
+              <option value=""> new Network...</option>
+            -->
+          </select>
+        </div>
+        <div class="col-6">
+          <label for="r_date" class="form-label">Release date</label>
+          <input type="date" class="form-control" id="r_date" name='r_date'>
+        </div>
+      </div>
+      <label for="url_img" class="form-label">Image (URL)</label>
+      <input type="text" class="form-control" id="url_img" name="url_img">
+      <label for="desc" class="form-label">Description</label>
+      <div class="form-floating">
+        <textarea class="form-control" id="desc" name="desc" value={{show.description}}></textarea>
+      </div>
+      <button type="submit" class="btn btn-success fw-bold text-center mt-4" id="btn_enviar">Add</button>
+    </form>
+  </div>
+{%endblock%}
