@@ -8,12 +8,15 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
   </head>
 {% endblock %}
+{% block btn%}
+<div class="goback"><a class=" border ex px-3 py-2" href="/shows" id="ex">Go Back</a></div>
+{% endblock %}
 {%block titulo%}
   Add a New Show
 {%endblock%}
 {%block content%}
   <!-- Form-->
-  <div id="formulario">
+  <div class="px-2 py-2 rounded border-dark" id="formulario">
     <form class="col text-center" action="/shows/create" method="POST">
     {% csrf_token %}
       <label for="show_title" class="form-label">Tittle</label>
@@ -36,7 +39,7 @@
           <input type="date" class="form-control" id="r_date" name='r_date'>
         </div>
       </div>
-      <label for="url_img" class="form-label">Image (URL)</label>
+      <label for="url_img" class="form-label" value="{{show.img_show}}">Image (URL)</label>
       <input type="text" class="form-control" id="url_img" name="url_img">
       <label for="desc" class="form-label">Description</label>
       <div class="form-floating">

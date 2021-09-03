@@ -1,48 +1,52 @@
 {% extends "base.html" %}
 {% block title %}
-  Add TV-Show
+Edit "{{show.title}}" Info
 {% endblock %}
 {% block estilo %}
-  <head>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  </head>
+
+<head>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+{% endblock %}
+{% block btn%}
+<div class="goback"><a class=" border ex px-3 py-2" href="/shows" id="ex">Go Back</a></div>
 {% endblock %}
 {%block titulo%}
-  Update a Show
+Edit {{show.title}} Info
 {%endblock%}
 {%block content%}
-  <!-- Form-->
-  <div id="formulario">
-    <form class="col text-center" action="/shows/edit" method="POST">
+<!-- Form-->
+<div class="border px-2 py-2 rounded border-dark" id="formulario">
+  <form class="col text-center" action="/shows/{{show.id}}/update" method="POST">
     {% csrf_token %}
-      <label for="show_title" class="form-label">Tittle</label>
-      <input type="text" class="form-control" id="show_title" name="show_title">
-      <div class="row">
-        <div class="col-6">
-          <label for="network_id" class="form-label">Network</label>
-          <select class="form-control mt-1 col-4 text-dark" id="network_id" name="network_id">
-            <option selected>Choose a Network...</option>
-            {% for network in networks %}
-              <option value="{{network.id}}"> {{network.name}}</option>
-            {% endfor %}
-            <!-- 
-              <option value=""> new Network...</option>
-            -->
-          </select>
-        </div>
-        <div class="col-6">
-          <label for="r_date" class="form-label">Release date</label>
-          <input type="date" class="form-control" id="r_date" name='r_date'>
-        </div>
+    <label for="show_title" class="form-label">Tittle</label>
+    <input type="text" class="form-control" id="show_title" name="show_title" value='{{show.title}}'>
+    <div class="row">
+      <div class="col-6">
+        <label for="network_id" class="form-label">Network</label>
+        <select class="form-control mt-1 col-4 text-dark" id="network_id" name="network_id">
+          <option>Choose a Network...</option>
+          {% for net in networks %}          
+          <option {% if net.id == show.network_id %} value="{{net.id}}"selected {% endif %}> {{net.name}}</option>          
+          {% endfor %}
+        </select>
       </div>
-      <label for="url_img" class="form-label">Image (URL)</label>
-      <input type="text" class="form-control" id="url_img" name="url_img">
-      <label for="desc" class="form-label">Description</label>
-      <div class="form-floating">
-        <textarea class="form-control" id="desc" name="desc" value={{show.description}}></textarea>
+      <div class="col-6">
+        <label for="r_date" class="form-label">Release date</label>
+        <input type="date" class="form-control" id="r_date" name='r_date' value="{{date_st}}">
       </div>
-      <button type="submit" class="btn btn-success fw-bold text-center mt-4" id="btn_enviar">Add</button>
-    </form>
-  </div>
+    </div>
+    <label for="url_img" class="form-label">Image (URL)</label>
+    <input type="text" class="form-control" value="{{show.img_show}}" id="url_img" name="url_img">
+    <label for="desc" class="form-label">Description</label>
+    <div class="form-floating">
+      <textarea class="form-control pt-0" id="desc" name="desc">{{show.description}}</textarea>
+    </div>
+    <button type="submit" class="btn btn-success fw-bold text-center my-4" id="btn_enviar">Update</button>
+    <a class="bg-none text-decoration-underline text-light fs-6" id="ex" href="/shows/{{show.id}}"></i> Go to Show </a>
+  </form>
+</div>
 {%endblock%}
+{% block js%}
+{% endblock %}

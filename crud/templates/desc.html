@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}
+{{show.title}} Description
+{% endblock %}
+{% block estilo %}
+
+<head>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+{% endblock %}
+{%block titulo%}
+{%endblock%}
+{%block content%}
+<div class="goback"><a class=" border ex px-3 py-2" href="/shows" id="ex">Go Back</a></div>
+  <div class="container-fluid ">
+    <div class="row inline-block contenedor" id="formulario">        
+      <figure class="text-start ">
+        <blockquote class="blockquote  fs-1 fw-bold fst-italic"> {{show.title}}
+        </blockquote>
+        <figcaption class="blockquote-footer fs-5 fw-bold ">{{show.network.name}} </figcaption>
+      <hr class="text-light fw-bold">
+      <div class="avatar  ">
+        <img class="show_avatar img-fluid text-center" src="{{show.img_show}}" alt="{{show.title}} caption">
+      </div>
+      <p class="fs-5 fst-bold "><span class="fs-6 fst-italic"> 1st Episode: <br></span>{{date_st}}</p>
+      <p class="fs-5 fst- ">{{show.description}}</p>
+      <p class="fs-6 fst-italic pt-3">Last Updated: {{last_up}}</p>
+      <div class="text-left mt-5">
+        <a type="button" class="border text-light mx-1 px-3 py-2" href="{{show.id}}/edit" id="ex"><i class="far fa-edit 9x"> </i> Edit</a>  
+        <a type="button" data-bs-toggle="modal" data-bs-target="#delete_btn" class="modal-del border text-light mx-1 px-3 py-2" id="ex" href="{{show.id}}/destroy"><i class="fas fa-trash 9x"> </i> Delete</a>
+      </div>
+    </figure>       
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="delete_btn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <h5 class="modal-title text-dark mb-4" id="staticBackdropLabel"> Do you wanna remove it?</h5>
+          <div class="col-6"><button type="button" class="btn btn-success confirm" id="confirm">Yes</button></div>
+          <div class="col-6"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button></div> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
+{%endblock%}
+{% block js%}
+<script>
+  $('#delete_btn').on('.modal-del', function (e) {  
+      //const href = $(this).attr('data-href');
+      console.log(href);
+      $(this).find('.confirm').attr('href', $(e.relatedTarget).data('href'));
+  });
+</script>
+{%endblock%}

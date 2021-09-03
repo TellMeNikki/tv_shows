@@ -1,6 +1,5 @@
-from __future__ import unicode_literals
 from django.db import models
-import datetime
+from datetime import date, datetime
 
 class UsersManager(models.Manager):
   def basic_validator(self, postData):
@@ -14,21 +13,22 @@ class UsersManager(models.Manager):
     if postData['password'] != postData['password_confirm']:
       errors["password"] = "Passwords didn't match. Please try again"        
     return errors
+    
 
 class ShowManager(models.Manager):    
   def basic_validator(self, postData):
     errors = {}
-    if len(postData['title']) <= 2:
-      errors["title"] = "Title must have at least 2 letters"
-    if len(postData['network']) < 1:
-      errors["network"] = "you must select 1 option"
+    if len(postData['show_title']) < 2:
+      errors["title"] = "Title should have at least 2 characters"
+    if len(postData['network_id']) == 'Choose a Network...':
+      errors["network"] = "please select an option"
     try:             
-      if datetime.strptime(postData['release_date'],"%Y-%m-%d").date() > datetime.today().date():                 
-        errors['release_date'] = 'The release time should be today or earlier'         
+      if datetime.strptime(postData['r_date'],"%Y-%m-%d").date() > datetime.today().date():                 
+        errors['r_date'] = 'The release time should be today or earlier'         
     except ValueError:
-      errors['release_date'] = 'You should pick a date'
-    if len(postData['description']) < 4:
-      errors["description"] = "description must have at least 4 letters"
+      errors['r_date'] = 'You should pick a date'
+    if len(postData['desc']) < 10:
+      errors["desc"] = "description should have at least 10 characters"
     return errors
 
 class Users(models.Model):

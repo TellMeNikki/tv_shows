@@ -18,6 +18,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap&effect=3d|neon" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Philosopher:wght@700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/673ca7c6b8.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/main_style.css' %}">
     {% block estilos%}
@@ -26,35 +31,55 @@
   </head>
   <body>
     <div class="wrapped">
+      <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-dark bg-muted rounded ms-2 pt-2">
-      <div class="container-fluid">
-        <a class="navbar-brand">TV-Shows</a>
-        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse fs-4 ps-3" id="navbar">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
+        <div class="container-fluid">
+          <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand">TV-Shows</a>
+          <div class="navbar-collapse collapse fs-4 ps-3" id="navbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <a class="nav-link active" aria-current="page" href="/shows"><i class="fas fa-home"></i> HOME</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/shows/create">New</a>
-            </li>                        
-          </ul>
-          <form>
-            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-          </form>
+              <li class="nav-item">
+                <a class="nav-link" href="/shows/create">New</a>
+              </li>    
+            </ul>
+          </div>
+          <div class="d-flex align-items-center fs-4" id="menu_userw">
+            <div class="dropdown ">
+              <a class=" nav-link btn-none dropdown-toggle text-light" role="button" id="menu_user" data-bs-toggle="dropdown" aria-expanded="false">
+                Welcome {{request.session.user.name}}!
+              </a>
+              <ul class="dropdown-menu bg-transparent" aria-labelledby="menu_user">
+                <li class="bg-secondary nav-item"><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>        
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
     </div>
 
     <div class="container-fluid justify-content-center mt-3 " id="contenedor">
+      {% block btn%}
+      {% endblock %}
       <h1 class="fs-1">{% block titulo%} {% endblock %}</h1>
       {% block content%}
       {% endblock %}
     </div>
-    {% block js%}
+    {% block js %}
+      <script>
+        // Acá se muestran los Toastr's
+        $(document).ready(function onDocumentReady() {
+          {% if messages %}
+          {% for message in messages %}
+            toastr.{{message.tags}}("{{message}}");
+          {% endfor %}
+          {% endif %}
+        });
+
+
+      </script>
     {% endblock %}
   </body>
 </html>

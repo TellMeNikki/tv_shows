@@ -1,15 +1,16 @@
-#icon{
-  min-width: 5rem;
+/*INDEX*/
+#icon, #delete{
+  width: 6rem;
   padding: 0.4rem;
-  margin: 0.4rem;
+  margin: 0.1rem;
   font-weight: bold;
   vertical-align: middle;
+  border-radius:0.4rem;
 }
-
 #tabla{
   margin: 0 auto;
   background-color: rgb(255, 255, 255);
-  width: 75%;  
+  width: 80%;  
   height:50%;
   overflow: auto auto;
 }
@@ -23,28 +24,63 @@
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
 }
-
 .foot{
   margin: 0 auto;
-  padding: 1rem;
-  width: 75%;  
+  padding-top: 0.7rem;
+  width: 80%;  
 }
-
 a,a:link,a:visited {
   text-decoration: none;
   color: rgb(232, 236, 211);
 }
-
+/*CREATE*/
 #formulario{
   margin: 0 auto;
-  width: 70vh;
+  width: 80%;
 }
 .form-label{
   float:left;
   margin-top: 0.7rem;
   text-transform: uppercase;
 }
-
 .btn{
   width: 100%;
+}
+/*DESCRIPTION*/
+.avatar{
+  border:rgb(232, 236, 211);
+  width: 98%; 
+  align-items: center; 
+}
+.show_avatar{
+  object-position: center;
+  object-fit:fill;
+}
+.goback{
+  float: right; }
+#ex{
+  border: rgb(232, 236, 211);
+  border-radius: 0.4rem;
+}
+.blockquote-footer{
+  background: rgb(74, 67, 64);
+  color: rgb(232, 236, 211);
+}
+
+/* Responsive */
+@media screen and (max-width: 991px){
+	#tabla{
+		width: 100%;
+	}
+  #formulario{
+	  width: 98%;
+	}
+}
+@media screen and (max-width: 325px){
+	#tabla{
+		width: 100%;
+	}
+  #formulario{
+		width: 98%;
+	}
 }

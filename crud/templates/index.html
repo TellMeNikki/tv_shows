@@ -4,7 +4,6 @@
 <head>
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
 </head>
 {% endblock %}
 
@@ -16,11 +15,11 @@
   <table class="table table-striped fs-5 text-dark py-2 px-2 text-center">
     <thead>
       <tr class="fw-bolder">
-        <th scope="col">id</th>
-        <th scope="col">Title</th>
-        <th scope="col">Network</th>
-        <th scope="col">Release Date</th>
-        <th scope="col">Accion</th>
+        <th class="col-1" scope="col">id</th>
+        <th class="col-2" scope="col">Title</th>
+        <th class="col-2" scope="col">Network</th>
+        <th class="col-3" scope="col">Release Date</th>
+        <th class="col-4" scope="col">Accion</th>
       </tr>
     </thead>
     <tbody>
@@ -28,12 +27,18 @@
       <tr>
         <td scope="row">{{show.id}}</td>
         <td>{{show.title}}</td>
-        <td>{{show.network_id.name}}</td>
+        <td>{{show.network.name}}</td>
         <td>{{show.release_date}}</td>
         <td> 
-          <i class="far fa-eye 9x bg-success text-light" id="icon"> View</i> 
-          <i class="far fa-edit 9x bg-primary text-light" id="icon"> Edit</i> 
-          <i class="fas fa-trash 9x bg-danger text-light" id="icon"> Delete</i>
+          <form method="POST" action="eliminar/{{postre.id}}">
+            {% csrf_token %}
+            <div class="btn-group">
+              <a class="bg-success text-light" id="icon" href="{{show.id}}"><i class="far fa-eye 9x"  > </i> View</a>
+              <a class="bg-primary text-light" href="{{show.id}}/edit"id="icon"><i class="far fa-edit 9x" > </i> Edit</a>
+              <a class="bg-danger text-light" id="delete" href="/{{show.id}}/destroy"><i class="fas fa-trash 9x"> </i> Delete</a>
+            </div>
+            </div>
+          </form>
         </td>
       </tr>
       {% endfor %}
