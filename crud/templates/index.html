@@ -35,8 +35,7 @@
             <div class="btn-group">
               <a class="bg-success text-light" id="icon" href="{{show.id}}"><i class="far fa-eye 9x"  > </i> View</a>
               <a class="bg-primary text-light" href="{{show.id}}/edit"id="icon"><i class="far fa-edit 9x" > </i> Edit</a>
-              <a class="bg-danger text-light" id="delete" href="/{{show.id}}/destroy"><i class="fas fa-trash 9x"> </i> Delete</a>
-            </div>
+              <a type="button" data-href="/{{show.id}}/destroy" data-bs-toggle="modal" class="btn-default border bg-danger text-light" id="delete" data-bs-target="#delete_btn"><i class="fas fa-trash 9x"></i> Delete</a>
             </div>
           </form>
         </td>
@@ -45,11 +44,32 @@
     </tbody>
   </table>
 </div>
+<!--footer crear show-->  
 <div class="foot fs-4"> 
   <a href="/shows/create">
     <i class="fas fa-plus"></i> Add a new Show
   </a>
 </div>
+  <!-- Modal -->
+<div class="modal fade" id="delete_btn" data-bs-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <h5 class="modal-title text-dark mb-4" id="staticBackdropLabel"> Do you wanna remove it?</h5>
+          <div class="col-6"><a type="button" class="btn btn-success btn-ok" id="confirm">Yes</a></div>
+          <div class="col-6"><a type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {%endblock%} 
 {% block js%}
 <script>
@@ -57,5 +77,9 @@
     var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
     $('.tbl-header').css({ 'padding-right': scrollWidth });
   }).resize();
+
+  $('#delete_btn').on('show.bs.modal', function (e) {
+      $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+  });
 </script>
 {% endblock %}

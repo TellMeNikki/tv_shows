@@ -33,7 +33,7 @@ class ShowManager(models.Manager):
 
 class Users(models.Model):
   name = models.CharField(max_length=150)
-  email = models.EmailField()
+  email = models.EmailField(unique=True)
   password = models.CharField(max_length=30)
   allowed = models.BooleanField(default=True)
   create_at = models.DateTimeField(auto_now_add=True)
@@ -41,15 +41,15 @@ class Users(models.Model):
   objects = UsersManager()
 
   def __repr__(self) -> str:
-    return f'{self.id}: {self.name}'
+    return f'{self.id}: {self.name}' 
 
 class Network(models.Model):
   name = models.CharField(max_length=255)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 
-  def __repr__(self) -> str:
-    return f"{self.id},{self.name}"
+  def __repr__(self):
+    return f"<Tv object: {self.title} ({self.id})>"
 
 class Show(models.Model):
   title = models.CharField(max_length=255)
@@ -61,7 +61,7 @@ class Show(models.Model):
   updated_at = models.DateTimeField(auto_now=True)
   objects=ShowManager()
 
-  def __repr__(self) -> str:
-    return f"{self.id},{self.title}"
+  def __repr__(self):  
+    return f"<Tv object: {self.title} ({self.id})>"
 
 

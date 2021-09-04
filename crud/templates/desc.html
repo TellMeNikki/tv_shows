@@ -28,15 +28,14 @@
       <p class="fs-6 fst-italic pt-3">Last Updated: {{last_up}}</p>
       <div class="text-left mt-5">
         <a type="button" class="border text-light mx-1 px-3 py-2" href="{{show.id}}/edit" id="ex"><i class="far fa-edit 9x"> </i> Edit</a>  
-        <a type="button" data-bs-toggle="modal" data-bs-target="#delete_btn" class="modal-del border text-light mx-1 px-3 py-2" id="ex" href="{{show.id}}/destroy"><i class="fas fa-trash 9x"> </i> Delete</a>
+        <a type="button" data-href="/{{show.id}}/destroy" data-bs-toggle="modal" class="btn-default border text-light mx-1 px-3 py-2" data-bs-target="#delete_btn" id="ex"><i class="fas fa-trash 9x"></i> Delete</a>
       </div>
     </figure>       
   </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="delete_btn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="delete_btn" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -45,8 +44,8 @@
       <div class="modal-body">
         <div class="row">
           <h5 class="modal-title text-dark mb-4" id="staticBackdropLabel"> Do you wanna remove it?</h5>
-          <div class="col-6"><button type="button" class="btn btn-success confirm" id="confirm">Yes</button></div>
-          <div class="col-6"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button></div> 
+          <div class="col-6"><a type="button" class="btn btn-success btn-ok" id="confirm">Yes</a></div>
+          <div class="col-6"><a type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</a></div> 
         </div>
       </div>
     </div>
@@ -55,10 +54,8 @@
 {%endblock%}
 {% block js%}
 <script>
-  $('#delete_btn').on('.modal-del', function (e) {  
-      //const href = $(this).attr('data-href');
-      console.log(href);
-      $(this).find('.confirm').attr('href', $(e.relatedTarget).data('href'));
+  $('#delete_btn').on('show.bs.modal', function (e) {
+      $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
   });
 </script>
 {%endblock%}

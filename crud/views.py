@@ -1,8 +1,9 @@
 import bcrypt
-from django.http import request
+from .decorator import *
 from crud.models import Network, Show,Users
 from django.shortcuts import redirect, render, HttpResponse
 from django.contrib import messages
+from django.db import IntegrityError
 
 
 def register (request):    
@@ -19,20 +20,23 @@ def register (request):
       for key, msg_error in errors.items():
         messages.error(request, msg_error)
       return redirect('/register')
-        
-    user = Users.objects.create(
-      name=name,
-      email=email,
-      password=bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-    )
+    try: 
+      user = Users.objects.create(
+        name=name,
+        email=email,
+        password=bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+      )
 
-    request.session['user'] = {
-      'id': user.id,
-      'name': user.name,
-      'email': user.email,      
-    }
-    # messages.success(request, 'User created successful!')
-    return redirect('/shows', )
+      request.session['user'] = {
+        'id': user.id,
+        'name': user.name,
+        'email': user.email,      
+      }
+      messages.success(request, 'User created successful!')
+      return redirect('/shows', )
+    except IntegrityError:
+      messages.error(request, 'mail already exists. try to login')
+      return redirect(request.META.get('HTTP_REFERER'))
 
 
 def login(request):
@@ -61,7 +65,7 @@ def logout (request):
   del  request.session['user']
   return redirect('/register')
 
-
+@login_rq
 def shows(request):
   tvshows = Show.objects.all()
   networks = Network.objects.all()
@@ -71,7 +75,7 @@ def shows(request):
     }
   return render(request, "index.html", context)
 
-
+@login_rq
 def create(request):
   if request.method=='GET':
     networks = Network.objects.all()
@@ -102,7 +106,7 @@ def create(request):
     messages.success(request, 'The show has been created successfully!')
     return redirect( '/shows')
 
-
+@login_rq
 def desc(request,id_show):
   show = Show.objects.get(id=id_show)
   network = Network.objects.all()
@@ -117,7 +121,7 @@ def desc(request,id_show):
   }
   return render(request, "desc.html", context)
 
-
+@login_rq
 def edit(request, id_show):
   show = Show.objects.get(id=id_show)
   networks = Network.objects.all()
@@ -129,7 +133,7 @@ def edit(request, id_show):
   }
   return render(request, "update.html", context)
 
-
+@login_rq
 def update(request,id_show):
   if request.method == 'GET':
     show = Show.objects.get(id=id_show)
@@ -153,11 +157,12 @@ def update(request,id_show):
         messages.success(request, f'The show was modified successful!')
         return redirect('/shows')
 
-
+@login_rq
 def delete (request, id_show):
   show=Show.objects.get (id=id_show)
   show.delete()
   return redirect('/shows')
+
 
 def second(request, name):
     return HttpResponse("Hola " + name)
