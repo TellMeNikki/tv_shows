@@ -7,6 +7,7 @@ For more information on this file, see
 https://docs.djangoproject.com/en/3.2/howto/deployment/wsgi/
 """
 
+from whitenoise.django import DjangoWhiteNoise
 import os
 
 from django.core.wsgi import get_wsgi_application
@@ -14,3 +15,4 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tv_shows.settings')
 
 application = get_wsgi_application()
+application = DjangoWhiteNoise(application)
