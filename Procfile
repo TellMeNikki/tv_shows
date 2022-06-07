@@ -1,0 +1,1 @@
+web: gunicorn tv_shows.wsgi

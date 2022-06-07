@@ -30,7 +30,20 @@
         <a type="button" class="border text-light mx-1 px-3 py-2" href="{{show.id}}/edit" id="ex"><i class="far fa-edit 9x"> </i> Edit</a>  
         <a type="button" data-href="/{{show.id}}/destroy" data-bs-toggle="modal" class="btn-default border text-light mx-1 px-3 py-2" data-bs-target="#delete_btn" id="ex"><i class="fas fa-trash 9x"></i> Delete</a>
       </div>
-    </figure>       
+    </figure>   
+    <div class="row text-dark m-3">
+      <p><img src="{{msn.user.avatar}}" alt="" class="me-4" style="display: inline;"><span class="text-dark fw-bolder">
+          {{msn.user.name}}, {{msn.user.created_at}}</span></p>
+      <p id="ocultar" class="editar mx-auto">{{msn.message}}</p>
+      <form action="/edit/{{msn.id}}" method="POST">
+        {% csrf_token %}
+        <textarea name="new" cols="40" rows="1" style="display: none"
+          class="mostrar border border-warning form-control input-index mx-auto">{{msn.message}}</textarea>
+        <input type="submit"
+          class="mostrar btn text-warning bg-white border border-warning fw-bolder mt-1 ps-3 pe-3 pt-1 pb-1 pb-0"
+          style="display: none" required>
+      </form>
+    </div>
   </div>
 </div>
 
